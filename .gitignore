@@ -348,3 +348,17 @@ MigrationBackup/
 
 # Ionide (cross platform F# VS Code tools) working folder
 .ionide/
+Labs/HelloWorld/Content/bootstrap.min.css
+Labs/HelloWorld/Content/bootstrap-theme.min.css
+Labs/HelloWorld/Content/bootstrap-theme.css
+Labs/HelloWorld/Scripts/jquery-1.9.0.min.js
+Labs/HelloWorld/Scripts/jquery-1.9.0.js
+Labs/HelloWorld/Scripts/jquery-1.9.0.intellisense.js
+Labs/HelloWorld/Scripts/bootstrap.min.js
+Labs/HelloWorld/Scripts/bootstrap.js
+Labs/HelloWorld/Scripts/jquery-1.9.0.min.map
+Labs/HelloWorld/fonts/glyphicons-halflings-regular.woff
+Labs/HelloWorld/fonts/glyphicons-halflings-regular.ttf
+Labs/HelloWorld/fonts/glyphicons-halflings-regular.svg
+Labs/HelloWorld/fonts/glyphicons-halflings-regular.eot
+Labs/HelloWorld/Content/bootstrap.css

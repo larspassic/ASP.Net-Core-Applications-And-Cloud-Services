@@ -1,0 +1,25 @@
+﻿@model HelloWorld.Models.GuestResponse
+
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <link rel="stylesheet" type="text/css" href="~/Content/styles.css" />
+    <title>RsvpForm</title>
+</head>
+
+@{
+    Layout = null;
+}
+
+@using (Html.BeginForm())
+{
+    @Html.ValidationSummary()
+    <p><label>Name:</label> @Html.TextBoxFor(t => t.Name, new { @class = "form-control", maxlength = 30, style = "width:200px;" })</p>
+    <p><label>Phone:</label> @Html.TextBoxFor(t => t.Phone, new { @class = "form-control", maxlength = 30, style = "with:200px;" })</p>
+    <p><label>Email:</label> @Html.TextBoxFor(t => t.Email)</p>
+    <p>
+       Will Attend: @Html.DropDownListFor(t => t.WillAttend, Model.SelectItems, "Choose an option")
+    </p>
+    <div class="btn btn-success">
+        <input type="submit" value="Submit RSVP" />
+    </div>
+}

@@ -1,0 +1,24 @@
+﻿@model HelloWorld.Models.GuestResponse
+
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<head>
+    <link rel="stylesheet" type="text/css" href="~/Content/styles.css" />
+</head>
+
+<h1>Thank you, @Model.Name</h1>
+@if (Model.WillAttend == true)
+{
+    <p>@Model.Name, you have been successfully registered under the email @Model.Email.</p>
+    
+    int x = 1;
+    x++;
+
+    <p>Thanks for coming! you are the @x person. </p>
+}
+else
+{
+    @:Sorry you can't make it.
+}
