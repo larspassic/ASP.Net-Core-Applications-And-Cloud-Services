@@ -12,10 +12,9 @@ namespace HelloWorld.Controllers
         // GET: Home
         public ActionResult Index()
         {
-            //Divide by zero error
-
-            int x = 1;
-            x = x / (x - 1);
+            //Divide by zero error to demonstrate exceptions
+            //int x = 1;
+            //x = x / (x - 1);
             
             
             
