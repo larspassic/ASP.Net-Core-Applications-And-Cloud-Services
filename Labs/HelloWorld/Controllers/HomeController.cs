@@ -12,8 +12,26 @@ namespace HelloWorld.Controllers
         // GET: Home
         public ActionResult Index()
         {
+            //Divide by zero error
+
+            int x = 1;
+            x = x / (x - 1);
+            
+            
+            
             return View();
         }
+
+        public ActionResult Error()
+        {
+            return View();
+        }
+
+        ////Exception only for this controller
+        //protected override void OnException(ExceptionContext filterContext)
+        //{
+        //    base.OnException(filterContext);
+        //}
 
         [HttpGet]
         public ActionResult RsvpForm()
