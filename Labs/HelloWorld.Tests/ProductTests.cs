@@ -25,6 +25,8 @@ namespace HelloWorld.Tests
             Assert.AreEqual(4, products.Length, "Length is invalid");
         }
 
+
+
         [TestMethod]
         public void TestMethodWithMoq()
         {
@@ -50,6 +52,24 @@ namespace HelloWorld.Tests
             // Assert
             var products = (Product[])((System.Web.Mvc.ViewResultBase)(result)).Model;
             Assert.AreEqual(2, products.Length, "Length is invalid");
+        }
+
+        [TestMethod]
+        public void TestProducts_WithFake_Expect5()
+        {
+            //Arrange
+            var controller = new HomeController(new FakeProductExerciseRepository());
+
+            //Act
+            var result = controller.Products();
+
+            //Assert
+            var products = (Product[])((System.Web.Mvc.ViewResultBase)(result)).Model;
+
+            Assert.IsNotNull(products, "Products is null");
+            Assert.AreEqual(5, products.Length, "Length is invalid");
+            Assert.AreEqual(3, products.Where(t => t.Price > 10).Count(), "Too few products greater than $10");
+            Assert.AreEqual(2, products.Where(t => t.Price < 10).Count(), "Too many products less than $10");
         }
     }
 }

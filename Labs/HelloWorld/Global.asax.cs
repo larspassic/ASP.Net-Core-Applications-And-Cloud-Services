@@ -22,6 +22,10 @@ namespace HelloWorld
 
         }
 
+
+        //This is apparently a very common pattern when implementing Autofac for dependency injection
+        //"Just keep following the pattern until it makes sense"
+        //So I may need to re-use this code in future projects until it starts to make sense.
         private void RegisterAutofac()
         {
             var builder = new ContainerBuilder();
@@ -38,6 +42,7 @@ namespace HelloWorld
             DependencyResolver.SetResolver(new AutofacDependencyResolver(container));
         }
 
+
         protected void Application_Error()
         {
             var exception = Server.GetLastError();
@@ -46,11 +51,11 @@ namespace HelloWorld
 
             //Create teh routeData
             var routeData = new RouteData();
-            routeData.Values.Add("controller", "Home");
+            routeData.Values.Add("controller", "Error");
             routeData.Values.Add("action", "Error");
 
             //Create the errorController and execute it
-            IController errorController = new Controllers.HomeController();
+            IController errorController = new Controllers.ErrorController();
             errorController.Execute(new RequestContext(new HttpContextWrapper(Context), routeData));
         }
     }

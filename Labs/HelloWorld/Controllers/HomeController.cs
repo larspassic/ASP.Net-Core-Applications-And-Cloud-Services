@@ -9,6 +9,16 @@ namespace HelloWorld.Controllers
 {
     public class HomeController : Controller
     {
+        //This is a field
+        private IProductRepository productRepository;
+
+        //This is a constructor
+        public HomeController(IProductRepository productRepository)
+        {
+            this.productRepository = productRepository;
+        }        
+        
+        
         // GET: Home
         public ActionResult Index()
         {
@@ -21,10 +31,7 @@ namespace HelloWorld.Controllers
             return View();
         }
 
-        public ActionResult Error()
-        {
-            return View();
-        }
+
 
         ////Exception only for this controller
         //protected override void OnException(ExceptionContext filterContext)
@@ -73,29 +80,14 @@ namespace HelloWorld.Controllers
 
         public ActionResult Product()
         {
-            var myProduct = new Product
-            {
-                ProductId = 1,
-                Name = "Kayak",
-                Description = "A boat for one person",
-                Category = "water-sports",
-                Price = 200m,
-            };
 
-            return View(myProduct);
+            return View(productRepository.Products.First());
         }
 
         public ActionResult Products()
         {
-            var products = new Product[]
-            {
-                new Product{ ProductId = 1, Name = "Tootsie Roll", Price = 0.10m},
-                new Product{ ProductId = 2, Name = "Hard candy", Price = 0.25m},
-                new Product{ ProductId = 3, Name = "Lollipop", Price = 0.50m},
-                new Product{ ProductId = 4, Name = "Gummy Bears", Price = 1.25m}
-            };
 
-            return View(products);
+            return View(productRepository.Products);
         }
     }
 }
