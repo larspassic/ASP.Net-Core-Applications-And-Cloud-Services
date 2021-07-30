@@ -7,6 +7,8 @@ using HelloWorld.Models;
 
 namespace HelloWorld.Controllers
 {
+    
+    [LoggingAttribute]
     public class HomeController : Controller
     {
         //This is a field
