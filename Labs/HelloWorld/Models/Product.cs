@@ -1,6 +1,6 @@
 ﻿namespace HelloWorld.Models
 {
-    public class Product
+    public class XProduct
     {
         public int ProductId { get; set; }
         public string Name { get; set; }

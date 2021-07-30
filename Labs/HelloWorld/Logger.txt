@@ -1,1 +1,4 @@
 7/29/2021 5:38:18 PM : Elapsed=00:01:01.1996488 : Action=Index
+7/29/2021 7:32:45 PM : Elapsed=00:00:03.5869533 : Action=Products
+7/29/2021 7:33:00 PM : Elapsed=00:00:00.0109682 : Action=Index
+7/29/2021 7:33:04 PM : Elapsed=00:00:01.1012963 : Action=Products
