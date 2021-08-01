@@ -18,7 +18,14 @@ namespace HelloWorld.Controllers
         public HomeController(IProductRepository productRepository)
         {
             this.productRepository = productRepository;
-        }        
+        }
+
+        public PartialViewResult IncrementCount()
+        {
+            
+
+            return new PartialViewResult();
+        }
         
         
         // GET: Home
