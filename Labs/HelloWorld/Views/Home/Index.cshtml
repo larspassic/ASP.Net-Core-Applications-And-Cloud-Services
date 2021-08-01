@@ -27,9 +27,14 @@
 <body>
     <div class="text-center">
         <h2>The party is tonight.</h2>
-        <h3>And you're invited</h3>
 
         @Html.Action("IncrementCount")
+
+
+        <p>Currently Logged in as: @Html.Action("DisplayLoginName")</p>
+        <p>@Html.ActionLink("Login", "Login") | @Html.ActionLink("Logoff", "Logoff")</p>
+
+        <h3>And you're invited</h3>
 
         <div class="btn btn-success">
             @Html.ActionLink("RSVP Now", "RsvpForm")

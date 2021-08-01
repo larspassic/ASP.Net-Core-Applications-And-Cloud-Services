@@ -1,0 +1,21 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>DisplayLoginName</title>
+</head>
+<body>
+    <div> 
+        @if (Session["UserName"] != null)
+            {
+                @Session["UserName"]
+            }
+    </div>
+</body>
+</html>

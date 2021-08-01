@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using HelloWorld.Models;
 
+
 namespace HelloWorld.Controllers
 {
     
@@ -38,6 +39,38 @@ namespace HelloWorld.Controllers
             
             
             return View();
+        }
+
+
+        //Login action for exercise
+        [HttpGet]
+        public ActionResult Login()
+        {
+
+
+            return View();
+        }
+
+        [HttpPost]
+        //Trying to make an HttpPost version of the Login action
+        public ActionResult Login(Models.LoginModel loginModel)
+        {
+            HttpContext.Session.Add("UserName", loginModel.UserName);
+            return View("Index", loginModel);
+        }
+
+        //Logoff action for exercise
+        public ActionResult Logoff()
+        {
+            Session["UserName"] = null;
+
+            return RedirectToAction("Index");
+        }
+
+        //DisplayLoginName for exercise
+        public PartialViewResult DisplayLoginName()
+        {
+            return new PartialViewResult();
         }
 
 

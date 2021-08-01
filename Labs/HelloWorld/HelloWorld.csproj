@@ -165,6 +165,7 @@
     </Compile>
     <Compile Include="LoggingAttribute.cs" />
     <Compile Include="Models\GuestResponse.cs" />
+    <Compile Include="Models\LoginModel.cs" />
     <Compile Include="Models\Product.cs" />
     <Compile Include="Product.cs">
       <DependentUpon>HelloWorld.tt</DependentUpon>
@@ -183,6 +184,8 @@
     <Content Include="Scripts\jquery-1.9.0.min.map" />
     <Content Include="Views\Error\Error.cshtml" />
     <Content Include="Views\Home\IncrementCount.cshtml" />
+    <Content Include="Views\Home\Login.cshtml" />
+    <Content Include="Views\Home\DisplayLoginName.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
