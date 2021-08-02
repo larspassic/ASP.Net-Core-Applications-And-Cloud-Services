@@ -1,0 +1,17 @@
+﻿@model HttpCookie
+
+@{
+    Layout = null;
+}
+
+@if (Model == null)
+{
+    <p>No cookie set.</p>
+}
+else
+	{
+<p>Cookie Get</p>
+<p>Name: @Model.Name</p>
+<p>Value: @Model.Value</p>
+<p>Expires: @Model.Expires</p>
+	}

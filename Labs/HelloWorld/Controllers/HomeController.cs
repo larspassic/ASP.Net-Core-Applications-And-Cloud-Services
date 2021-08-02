@@ -131,5 +131,30 @@ namespace HelloWorld.Controllers
 
             return View(productRepository.Products);
         }
+
+        public ActionResult SetCookie()
+        {
+            //Name the cookie as MyCookie for later retrieval
+            var cookie = new HttpCookie("MyCookie");
+
+            //This cookie will expire about one minute, depends on browser
+            cookie.Expires = DateTime.Now.AddMinutes(1);
+
+            //This cookie will have a simple string value of myUserName
+            //but it can be any kind of object.
+            cookie.Value = "myUserName";
+
+            //Add the cookie to the response to send it to the browser
+            HttpContext.Response.Cookies.Add(cookie);
+
+            return View(cookie);
+        }
+
+        public ActionResult GetCookie()
+        {
+            return View(HttpContext.Request.Cookies["MyCookie"]);
+        }
+
+
     }
 }
