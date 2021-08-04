@@ -21,14 +21,21 @@ namespace HelloWorld
 
             //Adding action filters here
             //Someone called action filters "middleware" because it's in the middle
-            
+
             //This is the logging filter that Dan V. made for us in the lab
             //GlobalFilters.Filters.Add(new LoggingAttribute());
-            
+
             //This was my "Block local IP address" filter I made
             //GlobalFilters.Filters.Add(new BlockIPAddressForExercise());
 
+            string currentFilters = GlobalFilters.Filters.ToString();
+
             RegisterAutofac();
+
+            
+
+
+            
 
         }
 
