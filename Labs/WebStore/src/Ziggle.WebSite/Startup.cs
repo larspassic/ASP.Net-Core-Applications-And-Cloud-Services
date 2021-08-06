@@ -12,6 +12,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Ziggle.WebSite.Data;
+using Ziggle.Business;
+using Ziggle.Repository;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace Ziggle.WebSite
 {
@@ -27,6 +30,24 @@ namespace Ziggle.WebSite
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddSingleton<ICategoryManager, CategoryManager>();
+            services.AddSingleton<ICategoryRepository, CategoryRepository>();
+
+            services.AddSingleton<IProductManager, ProductManager>();
+            services.AddSingleton<IProductRepository, ProductRepository>();
+
+            services.AddSingleton<IUserManager, UserManager>();
+            services.AddSingleton<IUserRepository, UserRepository>();
+
+            services.AddSession();
+
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+        .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, options =>
+        {
+            options.LoginPath = new PathString("/Home/Login");
+            options.AccessDeniedPath = new PathString("/Account/Denied");
+        });
+
             services.Configure<CookiePolicyOptions>(options =>
             {
                 // This lambda determines whether user consent for non-essential cookies is needed for a given request.
@@ -57,11 +78,15 @@ namespace Ziggle.WebSite
                 app.UseHsts();
             }
 
+
+
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
 
             app.UseAuthentication();
+
+            app.UseSession(); // before UseMvc
 
             app.UseMvc(routes =>
             {
