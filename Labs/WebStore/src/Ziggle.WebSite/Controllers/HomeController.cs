@@ -133,6 +133,31 @@ namespace Ziggle.WebSite.Controllers
             return View(loginModel);
         }
 
+        [HttpPost]
+        public ActionResult Register(RegisterModel registerModel)
+        {
+            
+            //where do I compare password and confirmpassword to ensure they match?
+            //do asp-for Password and asp-for ConfirmPassword automatically compare the password boxes?
+
+            if (ModelState.IsValid) 
+            {
+                userManager.Register(registerModel.UserName, registerModel.Password);  //do not know what to do next
+
+                //Don't really know what I should do to register the user
+            }
+
+            return View(registerModel);
+        }
+
+        [HttpGet]
+        public ActionResult Register()
+        {
+            //Don't know what this is doing either so don't know what to do here
+            
+            return View();
+        }
+
         public ActionResult LogOff()
         {
             HttpContext.Session.Remove("User");
