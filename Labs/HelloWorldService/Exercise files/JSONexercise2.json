@@ -1,0 +1,20 @@
+[
+    {
+      "StudentId": "101",
+      "Name": "Steve",
+      "Courses": [
+        {
+          "CourseId": "101",
+          "Name": "C#"
+        },
+        {
+          "CourseId": "201",
+          "Name": "Advanced C#"
+        }
+      ]
+    },
+    {
+      "StudentId": "201",
+      "Name": "Dave"
+    }
+]

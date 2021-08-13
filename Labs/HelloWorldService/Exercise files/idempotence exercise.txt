@@ -1,0 +1,15 @@
+1. Define idempotent
+
+Idempodent means that the request can be sent multiple times, and the result will be the same, or there will be no adverse side effects.
+
+"Delete the first object in the array" is not idempotent because if you sent it twice, it would delete two different items.
+"Find the item named "Joe" and remove it from the array" is idempotent because once Joe has been removed, you can send the request over and over again and it will not make further destructive changes to the array.
+
+2. Which Http methods (Head, Get, Post, Put, Delete) are idempotent? And why?
+
+GET is idempotent because it does not change anything on the server. If you send get multiple times, no harm.
+HEAD is also idempotent in the same way as GET.
+PUT is idempotent if you specify an object.
+POST is not idempotent unless you build it to ignore duplicate requests.
+DELETE is idempotent if you specify an object.
+DELETE is not idempotent if you say, "Delete one."
