@@ -136,15 +136,17 @@ namespace Ziggle.WebSite.Controllers
         [HttpPost]
         public ActionResult Register(RegisterModel registerModel)
         {
-            
-            //where do I compare password and confirmpassword to ensure they match?
-            //do asp-for Password and asp-for ConfirmPassword automatically compare the password boxes?
 
             if (ModelState.IsValid) 
             {
-                userManager.Register(registerModel.UserName, registerModel.Password);  //do not know what to do next
+                //This actually registers the user
+                var user = userManager.Register(registerModel.UserName, registerModel.Password);  //do not know what to do next
 
-                //Don't really know what I should do to register the user
+                if (user == null)
+                {
+                    ModelState.AddModelError("msg", "Failed to register. The email is already in use.");
+                    return View();
+                }
 
                 //From Dan's solution:
                 return Redirect("~/");
