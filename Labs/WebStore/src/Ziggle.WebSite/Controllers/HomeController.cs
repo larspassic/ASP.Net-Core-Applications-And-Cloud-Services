@@ -145,9 +145,13 @@ namespace Ziggle.WebSite.Controllers
                 userManager.Register(registerModel.UserName, registerModel.Password);  //do not know what to do next
 
                 //Don't really know what I should do to register the user
+
+                //From Dan's solution:
+                return Redirect("~/");
+
             }
 
-            return View(registerModel);
+            return View();
         }
 
         [HttpGet]

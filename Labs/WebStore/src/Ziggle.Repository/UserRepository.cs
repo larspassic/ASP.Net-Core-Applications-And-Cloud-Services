@@ -32,6 +32,16 @@ namespace Ziggle.Repository
 
         public UserModel Register(string email, string password)
         {
+            //If the email address that was passed in to the register method was found by checking the database, store it in userFound
+            var userFound = DatabaseAccessor.Instance.User.FirstOrDefault(t => t.UserEmail.ToLower() == email.ToLower());
+
+            //If userFound is not null, exit the register method to avoid duplicate registration
+            if (userFound != null)
+            {
+                return null;
+            }
+
+            
             var user = DatabaseAccessor.Instance.User
                     .Add(new Ziggle.ProductDatabase.User
                     {

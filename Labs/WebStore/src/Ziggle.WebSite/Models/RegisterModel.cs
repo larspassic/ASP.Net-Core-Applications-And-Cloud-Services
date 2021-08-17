@@ -21,7 +21,12 @@ namespace Ziggle.WebSite.Models
 
         [Required]
         [DataType(DataType.Password)]
-        [Display(Name = "Confirm password")]
+        
+        //Here is where we compare the passwords during registration
+        //If they don't match, this will probably create a model state isvalid false
+        [Compare("Password")]
+        
+        [Display(Name = "ConfirmPassword")]
         public string ConfirmPassword { get; set; }
     }
 }
