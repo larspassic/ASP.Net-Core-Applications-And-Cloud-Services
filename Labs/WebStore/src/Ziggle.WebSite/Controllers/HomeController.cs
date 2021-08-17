@@ -8,6 +8,7 @@ using Ziggle.WebSite.Models;
 using Ziggle.Business;
 using Newtonsoft.Json;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using System.Security.Claims;
@@ -19,14 +20,17 @@ namespace Ziggle.WebSite.Controllers
         private readonly ICategoryManager categoryManager;
         private readonly IProductManager productManager;
         private readonly IUserManager userManager;
+        private readonly IShoppingCartManager shoppingCartManager;
 
         public HomeController(ICategoryManager categoryManager,
                               IProductManager productManager,
-                              IUserManager userManager)
+                              IUserManager userManager,
+                              IShoppingCartManager shoppingCartManager)
         {
             this.categoryManager = categoryManager;
             this.productManager = productManager;
             this.userManager = userManager;
+            this.shoppingCartManager = shoppingCartManager;
         }
 
         public ActionResult Index()
@@ -65,6 +69,28 @@ namespace Ziggle.WebSite.Controllers
         {
             ViewData["ReturnUrl"] = Request.Query["returnUrl"];
             return View();
+        }
+
+        [Authorize]
+        public ActionResult AddToCart(int id)
+        {
+            //Get the user session data
+            var user = JsonConvert.DeserializeObject<Models.UserModel>(HttpContext.Session.GetString("User"));
+
+            //Use the user id from the session data, as well as the id that was passed in, to add the item to the cart
+            var item = shoppingCartManager.Add(user.Id, id, 1);
+
+            //Get the newly updated cart of items
+            var items = shoppingCartManager.GetAll(user.Id)
+                .Select(t => new Ziggle.WebSite.Models.ShoppingCartItem
+                {
+                    UserId = t.UserId,
+                    ProductId = t.ProductId,
+                    Quantity = t.Quantity
+                }).ToArray();
+
+            //Go to the AddToCart.cshtml view?
+            return View(items);
         }
 
         [HttpPost]
@@ -192,6 +218,9 @@ namespace Ziggle.WebSite.Controllers
         {
             return View();
         }
+
+        
+
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
