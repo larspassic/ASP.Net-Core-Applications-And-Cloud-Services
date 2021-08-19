@@ -20,6 +20,11 @@ namespace Ziggle.Repository
 
     }
 
+
+
+
+
+
     public class ShoppingCartRepository : IShoppingCartRepository
     {
         public ShoppingCartModel Add(int userId, int productId, int quantity)

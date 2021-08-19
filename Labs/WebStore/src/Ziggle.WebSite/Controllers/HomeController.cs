@@ -38,7 +38,9 @@ namespace Ziggle.WebSite.Controllers
             var categories = categoryManager.Categories
                                             .Select(t => new Ziggle.WebSite.Models.CategoryModel(t.Id, t.Name))
                                             .ToArray();
+            
             var model = new IndexModel { Categories = categories };
+            
             return View(model);
         }
 
@@ -65,11 +67,7 @@ namespace Ziggle.WebSite.Controllers
             return View(model);
         }
 
-        public ActionResult LogIn()
-        {
-            ViewData["ReturnUrl"] = Request.Query["returnUrl"];
-            return View();
-        }
+
 
         [Authorize]
         public ActionResult AddToCart(int id)
@@ -84,13 +82,21 @@ namespace Ziggle.WebSite.Controllers
             var items = shoppingCartManager.GetAll(user.Id)
                 .Select(t => new Ziggle.WebSite.Models.ShoppingCartItem
                 {
-                    UserId = t.UserId,
                     ProductId = t.ProductId,
+                    ProductName = t.ProductName,
+                    ProductPrice = t.ProductPrice,
                     Quantity = t.Quantity
                 }).ToArray();
 
             //Go to the AddToCart.cshtml view?
             return View(items);
+        }
+
+
+        public ActionResult LogIn()
+        {
+            ViewData["ReturnUrl"] = Request.Query["returnUrl"];
+            return View();
         }
 
         [HttpPost]
