@@ -75,6 +75,7 @@ namespace Ziggle.WebSite.Controllers
             //Get the user session data
             var user = JsonConvert.DeserializeObject<Models.UserModel>(HttpContext.Session.GetString("User"));
 
+
             //var userJson = HttpContext.Session.GetString("User");
             //var user = JsonConvert.DeserializeObject<Models.UserModel>(userJson);
             
@@ -86,13 +87,10 @@ namespace Ziggle.WebSite.Controllers
         }
 
         [Authorize]
-        public ActionResult ShoppingCart(int id)
+        public ActionResult ShoppingCart()
         {
             //Get the user session data
             var user = JsonConvert.DeserializeObject<Models.UserModel>(HttpContext.Session.GetString("User"));
-
-            //Use the user id from the session data, as well as the id that was passed in, to add the item to the cart
-            var item = shoppingCartManager.Add(user.Id, id, 1);
 
             //Get the newly updated cart of items
             var items = shoppingCartManager.GetAll(user.Id)
