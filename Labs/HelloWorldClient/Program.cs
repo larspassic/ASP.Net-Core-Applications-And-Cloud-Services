@@ -58,10 +58,15 @@ namespace HelloWorldClient
 
 
             var result = client.GetAsync("contacts").Result;
-
             var json = result.Content.ReadAsStringAsync().Result;
-
             var list = JsonConvert.DeserializeObject<List<Contact>>(json);
+            
+            //Exercise to add delete functionality - use .Result to get the result NOW
+            var idToDelete = list[0].Id;
+            var deleteResult = client.DeleteAsync("contacts/"+ idToDelete);
+            //var deletejson = deleteResult
+
+            Console.WriteLine($"{deleteResult.Result}");
 
             foreach (var contact in list)
             {

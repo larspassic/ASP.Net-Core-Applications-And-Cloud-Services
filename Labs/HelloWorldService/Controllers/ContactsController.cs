@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Net;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -27,12 +28,19 @@ namespace HelloWorldService.Controllers
 
         // GET api/<ContactsController>/5
         [HttpGet("{id}", Name = "Get")]
-        public Contact Get(int id)
+        public IActionResult Get(int id)
         {
             //Search through "contacts" and store the result where id matches the id that was sent
             Contact contactFound = contacts.FirstOrDefault(t => t.Id == id);
-            
-            return contactFound;
+
+
+            //Exercise - need to send back a 404 not found result, how if we're sending back a Contact object
+            if (contactFound == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(contactFound);
         }
 
         // POST api/<ContactsController>
