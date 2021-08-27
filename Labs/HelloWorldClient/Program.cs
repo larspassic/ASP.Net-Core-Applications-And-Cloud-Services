@@ -45,11 +45,23 @@ namespace HelloWorldClient
             //"Do not forget that trailing slash!"
             client.BaseAddress = new Uri("http://localhost:43953/api/");
 
+            var newContact = new Contact
+            {
+                Name = "New Name",
+                Phones = new[] {new Phone {Number = "425-111-2222",PhoneType = PhoneType.Mobile}}
+            };
+
+            var newJson = JsonConvert.SerializeObject(newContact);
+            var postContent = new StringContent(newJson, System.Text.Encoding.UTF8, "application/json");
+            var postResult = client.PostAsync("contacts", postContent).Result;
+            Console.WriteLine(postResult.StatusCode);
+
+
             var result = client.GetAsync("contacts").Result;
 
             var json = result.Content.ReadAsStringAsync().Result;
 
-            var list = JsonConvert.DeserializeObject<List<dynamic>>(json);
+            var list = JsonConvert.DeserializeObject<List<Contact>>(json);
 
             foreach (var contact in list)
             {
