@@ -72,12 +72,22 @@ namespace Ziggle.WebSite.Controllers
         [Authorize]
         public ActionResult AddToCart(int id)
         {
+            var checkUser = HttpContext.Session.GetString("User");
+            if (checkUser == null)
+            {
+                Console.WriteLine($"RJ told me to make this breakpoint trap");
+                //Breakpoint here
+            }
+
+
             //Get the user session data
-            //var user = JsonConvert.DeserializeObject<Models.UserModel>(HttpContext.Session.GetString("User"));
+            var user = JsonConvert.DeserializeObject<Models.UserModel>(HttpContext.Session.GetString("User"));
+
+
 
             //Alternate approach to get the user session data
-            var userJson = HttpContext.Session.GetString("User");
-            var user = JsonConvert.DeserializeObject<Models.UserModel>(userJson);
+            //var userJson = HttpContext.Session.GetString("User");
+            //var user = JsonConvert.DeserializeObject<Models.UserModel>(userJson);
             
             
             //Use the user id from the session data, as well as the id that was passed in, to add the item to the cart
