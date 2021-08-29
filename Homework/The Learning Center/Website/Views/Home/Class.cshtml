@@ -1,0 +1,13 @@
+﻿@model Website.Models.ClassViewModel
+
+@{
+ViewBag.Title = "Classes";
+}
+
+<h2>Welcome to the Classes Page</h2>
+
+@foreach (var item in Model.Classes)
+{
+	<li>@item.ClassName - @item.ClassPrice.ToString("c") @* - <a asp-action="AddToCart" asp-route-id="@item.Id">Add To Cart</a>*@ </li>
+
+}

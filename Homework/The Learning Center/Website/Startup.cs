@@ -12,6 +12,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Website.Data;
+using Microsoft.AspNetCore.Authentication.Cookies;
+
 
 namespace Website
 {
@@ -33,6 +35,26 @@ namespace Website
                 options.CheckConsentNeeded = context => true;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
+
+            //Adding usermanager in to DI
+            services.AddSingleton<IUserManager, UserManager>();
+            services.AddSingleton<IUserRepository, UserRepository>();
+
+
+            //Adding classmanager in to DI
+            services.AddSingleton<IClassManager, ClassManager>();
+            services.AddSingleton<IClassRepository, ClassRepository>();
+
+            //Adding session support?
+            services.AddSession();
+
+            //Adding Cookie Authenticaion
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                    .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, options =>
+                    {
+                        options.LoginPath = new PathString("/Home/Login");
+                        options.AccessDeniedPath = new PathString("/Account/Denied");
+                    });
 
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
@@ -61,7 +83,12 @@ namespace Website
             app.UseStaticFiles();
             app.UseCookiePolicy();
 
+            //Use authentication
             app.UseAuthentication();
+
+            
+            app.UseSession(); // before UseMvc
+
 
             app.UseMvc(routes =>
             {
