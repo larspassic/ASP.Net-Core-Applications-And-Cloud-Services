@@ -48,6 +48,10 @@ namespace Website
             //Adding session support?
             services.AddSession();
 
+            services.AddSingleton<IEnrollManager, EnrollManager>();
+            services.AddSingleton<IEnrollRepository, EnrollRepository>();
+
+
             //Adding Cookie Authenticaion
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                     .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, options =>
@@ -59,8 +63,10 @@ namespace Website
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
-            services.AddDefaultIdentity<IdentityUser>()
-                .AddEntityFrameworkStores<ApplicationDbContext>();
+            
+            //Removing the default authentication mechanism so that it doesn't interfere with my custom one
+            //services.AddDefaultIdentity<IdentityUser>()
+            //    .AddEntityFrameworkStores<ApplicationDbContext>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }

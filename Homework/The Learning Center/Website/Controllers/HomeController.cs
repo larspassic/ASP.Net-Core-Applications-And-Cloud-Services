@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Website.Controllers
 {
@@ -18,14 +19,17 @@ namespace Website.Controllers
 
         private readonly IUserManager userManager;
         private readonly IClassManager classManager;
+        private readonly IEnrollManager enrollManager;
 
         //The constructor
-        public HomeController(IUserManager userManager, IClassManager classManager)
+        public HomeController(IUserManager userManager, IClassManager classManager, IEnrollManager enrollManager)
         {
 
             this.userManager = userManager;
 
             this.classManager = classManager;
+
+            this.enrollManager = enrollManager;
         }
 
 
@@ -39,8 +43,29 @@ namespace Website.Controllers
         public ActionResult LogIn()
         {
             ViewData["ReturnUrl"] = Request.Query["returnUrl"];
-            
+
             return View();
+        }
+
+        [Authorize]
+        public ActionResult EnrollInClass(int id)
+        {
+            //Pull the UserID out of the Httpsession because the user won't send UserID in as a parameter
+            var user = JsonConvert.DeserializeObject<Models.UserModel>(HttpContext.Session.GetString("User"));
+
+            //This actually probably places the entry in the UserClass table
+            var item = enrollManager.Add(user.Id, id);
+
+            var items = enrollManager.GetAll(user.Id)
+                .Select(t => new Website.Models.EnrollModel
+                {
+                    UserId = t.UserId,
+                    ClassId = t.ClassId
+                }).ToArray();
+
+            return View(items);
+
+
         }
 
         [HttpPost]
