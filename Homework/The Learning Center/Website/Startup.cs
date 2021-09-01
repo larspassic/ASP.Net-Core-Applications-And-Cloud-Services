@@ -48,6 +48,7 @@ namespace Website
             //Adding session support?
             services.AddSession();
 
+            //Adding support for enrolling in class
             services.AddSingleton<IEnrollManager, EnrollManager>();
             services.AddSingleton<IEnrollRepository, EnrollRepository>();
 

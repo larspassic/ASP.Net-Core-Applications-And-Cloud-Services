@@ -53,7 +53,8 @@ namespace Website.Controllers
             //Pull the UserID out of the Httpsession because the user won't send UserID in as a parameter
             var user = JsonConvert.DeserializeObject<Models.UserModel>(HttpContext.Session.GetString("User"));
 
-            //This actually probably places the entry in the UserClass table
+            //This actually probably (maybe?) physically enrolls the user in the class,
+            //and places the new row in the UserClass table in the database.
             var item = enrollManager.Add(user.Id, id);
 
             var items = enrollManager.GetAll(user.Id)
@@ -90,10 +91,10 @@ namespace Website.Controllers
                     HttpContext.Session.SetString("User", json);
 
                     var claims = new List<Claim>
-                {
+                    {
                     new Claim(ClaimTypes.Name, user.Name),
                     new Claim(ClaimTypes.Role, "User"),
-                };
+                    };
 
                     var claimsIdentity = new ClaimsIdentity(claims,
                         CookieAuthenticationDefaults.AuthenticationScheme);
@@ -134,6 +135,7 @@ namespace Website.Controllers
             return View(loginModel);
         }
 
+
         public ActionResult LogOff()
         {
             HttpContext.Session.Remove("User");
@@ -154,6 +156,25 @@ namespace Website.Controllers
             //ViewData["ReturnUrl"] = Request.Query["returnUrl"];
 
             return View();
+        }
+
+        [Authorize]
+        [HttpGet]
+        public ActionResult EnrolledClasses()
+        {
+            //Need to pull the user out of the current HTTP session
+            var user = JsonConvert.DeserializeObject<Models.UserModel>(HttpContext.Session.GetString("User"));
+
+            //Get the classes from the database
+            var enrolledClasses = enrollManager.GetAll(user.Id)
+                .Select(t => new Website.Models.EnrollModel
+                {
+                    UserId = t.UserId,
+                    ClassId = t.ClassId
+                }).ToArray();
+
+            //Send the model object in to the page view
+            return View(enrolledClasses);
         }
 
 
@@ -180,44 +201,6 @@ namespace Website.Controllers
                     });
 
                     HttpContext.Session.SetString("User", json);
-                
-
-                    //Commenting this section out because we think it is 
-                //    var claims = new List<Claim>
-                //{
-                //    new Claim(ClaimTypes.Name, user.Name),
-                //    new Claim(ClaimTypes.Role, "User"),
-                //};
-
-                //    var claimsIdentity = new ClaimsIdentity(claims,
-                //        CookieAuthenticationDefaults.AuthenticationScheme);
-
-                //    var claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
-
-                //    var authProperties = new AuthenticationProperties
-                //    {
-                //        AllowRefresh = false,
-                //        // Refreshing the authentication session should be allowed.
-
-                //        ExpiresUtc = DateTimeOffset.UtcNow.AddMinutes(10),
-                //        // The time at which the authentication ticket expires. A 
-                //        // value set here overrides the ExpireTimeSpan option of 
-                //        // CookieAuthenticationOptions set with AddCookie.
-
-                //        IsPersistent = false,
-                //        // Whether the authentication session is persisted across 
-                //        // multiple requests. When used with cookies, controls
-                //        // whether the cookie's lifetime is absolute (matching the
-                //        // lifetime of the authentication ticket) or session-based.
-
-                //        IssuedUtc = DateTimeOffset.UtcNow,
-                //        // The time at which the authentication ticket was issued.
-                //    };
-
-                //    HttpContext.SignInAsync(
-                //        CookieAuthenticationDefaults.AuthenticationScheme,
-                //        claimsPrincipal,
-                //        authProperties).Wait();
 
                     return Redirect(returnUrl ?? "~/");
                 }
