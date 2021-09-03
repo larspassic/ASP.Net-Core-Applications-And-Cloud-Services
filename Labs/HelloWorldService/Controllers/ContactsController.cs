@@ -12,6 +12,8 @@ namespace HelloWorldService.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    //[Authenticator] //this will complicate Javascript section
+
     public class ContactsController : ControllerBase
     {
 
@@ -21,9 +23,13 @@ namespace HelloWorldService.Controllers
         
         // GET: api/<ContactsController>
         [HttpGet]
-        public IEnumerable<Contact> Get()
+        public IActionResult Get()
         {
-            return contacts;
+
+            //int x = 1;
+            //x = x / (x - 1);
+            
+            return Ok(contacts);
         }
 
         // GET api/<ContactsController>/5

@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>HelloWorldService</name>
+    </assembly>
+    <members>
+        <member name="T:HelloWorldService.Controllers.ErrorController">
+            <summary>
+            This is my Error controller!
+            </summary>
+            <example>Here is an example.</example>
+        </member>
+        <member name="M:HelloWorldService.Controllers.ErrorController.Error(System.Int32)">
+            <summary>
+            This is the primary Error route
+            </summary>
+            <param name="code">Http status code (Integer*32)</param>
+            <returns></returns>
+        </member>
+        <member name="T:HelloWorldService.Models.Contact">
+            <summary>
+            This is the contact object
+            </summary>
+        </member>
+        <member name="P:HelloWorldService.Models.Contact.Id">
+            <summary>
+            This is the Id of the contact object.
+            </summary>
+        </member>
+        <member name="M:HelloWorldService.Crypto.EncryptStringAES(System.String)">
+             <summary>
+             Encrypt the given string using AES.  The string can be decrypted using DecryptStringAES().
+            </summary>
+             <param name="plainText">The text to encrypt.</param>
+        </member>
+        <member name="M:HelloWorldService.Crypto.DecryptStringAES(System.String)">
+            <summary>
+            Decrypt the given string.  Assumes the string was encrypted using
+            EncryptStringAES(), using an identical password.
+            </summary>
+            <param name="cipherText">The text to decrypt.</param>
+        </member>
+    </members>
+</doc>
