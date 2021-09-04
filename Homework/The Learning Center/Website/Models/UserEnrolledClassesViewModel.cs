@@ -8,8 +8,9 @@ namespace Website.Models
     public class UserEnrolledClassesViewModel
     {
         public EnrollModel enrollModel { get; set; }
+        
+        public string className { get; set; }
         public ClassModel classModel { get; set; }
-
 
 
     }

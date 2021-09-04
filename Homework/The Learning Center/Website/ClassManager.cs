@@ -10,7 +10,7 @@ namespace Website
     public interface IClassManager
     {
         ClassManagerModel[] GetAllClasses();
-        ClassManagerModel GetClassById(int id);
+        ClassModel GetClassById(int id);
     }
 
     
@@ -51,11 +51,11 @@ namespace Website
                             .ToArray();
         }
 
-        public ClassManagerModel GetClassById(int id)
+        public ClassModel GetClassById(int id)
         {
             var repositoryObject = classRepository.GetClassById(id);
 
-            var managerObject = new ClassManagerModel();
+            var managerObject = new ClassModel();
 
             managerObject.ClassId = repositoryObject.ClassId;
             managerObject.ClassName = repositoryObject.ClassName;

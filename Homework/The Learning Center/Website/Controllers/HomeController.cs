@@ -191,6 +191,7 @@ namespace Website.Controllers
             var userEnrolledClassesViewModel = new UserEnrolledClassesViewModel();
 
 
+
             //Get the classes from the database
             var enrolledClasses = enrollManager.GetAll(user.Id)
                 .Select(t => new Website.Models.EnrollModel
@@ -199,22 +200,39 @@ namespace Website.Controllers
                     ClassId = t.ClassId
                 }).ToArray();
 
-            var classes = classManager.GetAllClasses().Select(t =>
-                                    new Website.Models.ClassModel
-                                    {
-                                        ClassId = t.ClassId,
-                                        ClassName = t.ClassName,
-                                        ClassPrice = t.ClassPrice,
-                                        ClassDescription = t.ClassDescription
-                                    }).ToArray();
+            //var classes = classManager.GetAllClasses().Select(t =>
+            //                        new Website.Models.ClassModel
+            //                        {
+            //                            ClassId = t.ClassId,
+            //                            ClassName = t.ClassName,
+            //                            ClassPrice = t.ClassPrice,
+            //                            ClassDescription = t.ClassDescription
+            //                        }).ToArray();
 
+            List<string> listOfClassNames = new List<string>();
 
-            for (int i = 0; i < enrolledClasses.Length; i++)
+            foreach (var singleClassId in enrolledClasses)
             {
-                userEnrolledClassesViewModel.enrollModel.ClassId = enrolledClasses[i].ClassId;
-                userEnrolledClassesViewModel.enrollModel.UserId = enrolledClasses[0].UserId;
-                userEnrolledClassesViewModel.classModel.ClassName = classManager.GetClassById(enrolledClasses[0].ClassId).ClassName;
+                var getClass = classManager.GetClassById(singleClassId.ClassId).ClassName;
+                listOfClassNames.Add(user.Name + " " + singleClassId.ClassId +" "+ getClass);
             }
+                userEnrolledClassesViewModel.enrollModel = enrolledClasses[0];
+            //userEnrolledClassesViewModel.enrollModel.UserId = enrolledClasses[0].UserId;
+            //userEnrolledClassesViewModel.classModel;
+                
+                
+
+           
+            
+               
+               
+               
+
+            //for each enrolled class
+            // { string classname = ClassManager.getClaassBybIDd(...)
+            //userEnerolledClassesVieMmodel.classes."add classname to list"
+
+            //}
 
 
 
@@ -226,7 +244,7 @@ namespace Website.Controllers
 
 
             //Send the model object in to the page view
-            return View(enrolledClasses);
+            return View(listOfClassNames);
         }
 
 
