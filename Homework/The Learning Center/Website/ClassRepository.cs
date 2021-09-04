@@ -8,6 +8,8 @@ namespace Website
     public interface IClassRepository
     {
         ClassModel[] GetAllClasses();
+
+        ClassModel GetClassById(int id);
     }
 
 
@@ -40,5 +42,24 @@ namespace Website
                     })
                     .ToArray();
         }
+
+        public ClassModel GetClassById(int id)
+        {
+            //Do stuff
+
+            var singleClass = DatabaseAccessor.Instance.Class;
+
+
+            return singleClass.Where(t => t.ClassId == id).Select(t => new ClassModel
+                 {
+                     ClassId = t.ClassId,
+                     ClassName = t.ClassName,
+                     ClassPrice = t.ClassPrice,
+                     ClassDescription = t.ClassDescription
+                 }).Single();
+
+        }
     }
+
+
 }

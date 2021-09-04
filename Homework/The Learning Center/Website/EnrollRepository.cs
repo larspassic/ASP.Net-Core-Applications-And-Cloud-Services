@@ -53,6 +53,14 @@ namespace Website
             return items;
         }
 
+        public void zz(){
+
+            //get a list of all the classes and put it into a map
+
+
+            }
+        
+
         public bool Remove(int userId, int classId)
         {
 

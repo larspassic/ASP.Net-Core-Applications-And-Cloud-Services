@@ -1,7 +1,18 @@
-﻿@model IEnumerable<Website.Models.EnrollModel>
+﻿@using Microsoft.AspNetCore.Http;
+@using Newtonsoft.Json;
+@model IEnumerable<Website.Models.EnrollModel>
 
 @{
 	ViewBag.Title = "EnrollInClass";
 }
 
-<h2>Enroll In Class</h2>
+@{
+	var user = JsonConvert.DeserializeObject<Website.Models.UserModel>(Context.Session.GetString("User"));
+} 
+                
+<h2>Congratulations @user.Name.ToUpper()</h2>
+
+@foreach (var registeredClass in Model)
+{
+	<p>You have enrolled in class @Html.DisplayFor(modelItem => registeredClass.ClassId)</p>
+}

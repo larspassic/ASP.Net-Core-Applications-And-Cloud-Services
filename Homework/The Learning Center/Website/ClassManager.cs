@@ -10,6 +10,7 @@ namespace Website
     public interface IClassManager
     {
         ClassManagerModel[] GetAllClasses();
+        ClassManagerModel GetClassById(int id);
     }
 
     
@@ -48,6 +49,20 @@ namespace Website
                                 ClassDescription = t.ClassDescription
                             })
                             .ToArray();
+        }
+
+        public ClassManagerModel GetClassById(int id)
+        {
+            var repositoryObject = classRepository.GetClassById(id);
+
+            var managerObject = new ClassManagerModel();
+
+            managerObject.ClassId = repositoryObject.ClassId;
+            managerObject.ClassName = repositoryObject.ClassName;
+            managerObject.ClassPrice = repositoryObject.ClassPrice;
+            managerObject.ClassDescription = repositoryObject.ClassDescription;
+
+            return managerObject;
         }
     }
 }

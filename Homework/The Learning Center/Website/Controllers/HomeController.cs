@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Website.Controllers
 {
@@ -48,14 +49,15 @@ namespace Website.Controllers
         }
 
         [Authorize]
-        public ActionResult EnrollInClass(int id)
+        [HttpPost]
+        public ActionResult EnrollInClass(int ClassId, string ClassName)
         {
             //Pull the UserID out of the Httpsession because the user won't send UserID in as a parameter
             var user = JsonConvert.DeserializeObject<Models.UserModel>(HttpContext.Session.GetString("User"));
 
             //This actually probably (maybe?) physically enrolls the user in the class,
             //and places the new row in the UserClass table in the database.
-            var item = enrollManager.Add(user.Id, id);
+            var item = enrollManager.Add(user.Id, ClassId);
 
             var items = enrollManager.GetAll(user.Id)
                 .Select(t => new Website.Models.EnrollModel
@@ -67,6 +69,27 @@ namespace Website.Controllers
             return View(items);
 
 
+        }
+
+        [Authorize]
+        public ActionResult SelectClass(int id)
+        {
+            //Copied from the Class() action
+            var classes = classManager.GetAllClasses().Select(t =>
+                                    new Website.Models.ClassModel
+                                    {
+                                        ClassId = t.ClassId,
+                                        ClassName = t.ClassName,
+                                        ClassPrice = t.ClassPrice,
+                                        ClassDescription = t.ClassDescription
+                                    }).ToArray();
+
+            var model = new ClassViewModel
+            {
+                Classes = classes
+            };
+
+            return View(new SelectList(classes, "ClassId", "ClassName"));
         }
 
         [HttpPost]
@@ -165,6 +188,9 @@ namespace Website.Controllers
             //Need to pull the user out of the current HTTP session
             var user = JsonConvert.DeserializeObject<Models.UserModel>(HttpContext.Session.GetString("User"));
 
+            var userEnrolledClassesViewModel = new UserEnrolledClassesViewModel();
+
+
             //Get the classes from the database
             var enrolledClasses = enrollManager.GetAll(user.Id)
                 .Select(t => new Website.Models.EnrollModel
@@ -172,6 +198,32 @@ namespace Website.Controllers
                     UserId = t.UserId,
                     ClassId = t.ClassId
                 }).ToArray();
+
+            var classes = classManager.GetAllClasses().Select(t =>
+                                    new Website.Models.ClassModel
+                                    {
+                                        ClassId = t.ClassId,
+                                        ClassName = t.ClassName,
+                                        ClassPrice = t.ClassPrice,
+                                        ClassDescription = t.ClassDescription
+                                    }).ToArray();
+
+
+            for (int i = 0; i < enrolledClasses.Length; i++)
+            {
+                userEnrolledClassesViewModel.enrollModel.ClassId = enrolledClasses[i].ClassId;
+                userEnrolledClassesViewModel.enrollModel.UserId = enrolledClasses[0].UserId;
+                userEnrolledClassesViewModel.classModel.ClassName = classManager.GetClassById(enrolledClasses[0].ClassId).ClassName;
+            }
+
+
+
+
+            Console.WriteLine(enrolledClasses[0].ClassId);
+
+            Debug.WriteLine("This writes to the debug log");
+
+
 
             //Send the model object in to the page view
             return View(enrolledClasses);
@@ -215,9 +267,7 @@ namespace Website.Controllers
         public ActionResult Class()
         {
 
-            var classes = classManager
-                                .GetAllClasses()
-                                .Select(t =>
+            var classes = classManager.GetAllClasses().Select(t =>
                                     new Website.Models.ClassModel
                                     {
                                         ClassId = t.ClassId,
