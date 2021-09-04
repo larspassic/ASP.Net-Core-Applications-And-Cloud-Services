@@ -1,11 +1,16 @@
 ﻿@using Microsoft.AspNetCore.Http;
 @using Newtonsoft.Json;
+@using System.Collections.Generic;
 
 @*
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
 
-@model IEnumerable<Website.Models.EnrollModel>
+
+@*@model IEnumerable<Website.Models.EnrollModel> commenting this out, this was what I started with*@
+@*@model List<string> commenting this out, this is what we used to receive List<String>*@ 
+@model List<Website.Models.UserEnrolledClassesViewModel>
+
 
 @{
     ViewBag.Title = "EnrolledClasses";
@@ -13,36 +18,72 @@
 
 <h2>Enrolled classes</h2>
 
+
+@*Going to comment this out
+@foreach   (var singleClass in Model)
+    {
+        <p>@singleClass</p>
+    }
+*@
+
+
 <table class="table">
     <tr>
         <th>
             Registered user
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.UserId)
+            
+            @*@Html.DisplayNameFor(model => model.UserId) --these do not work anymore for some reason--*@
+            User Id
+
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.ClassId)
+            Class name
+        </th>
+        <th>
+            Class description
+        </th>
+        <th>
+            @*@Html.DisplayNameFor(model => model.ClassId) --these do not work anymore for some reason--*@
+            Class Id
+        </th>
+        <th>
+            Price
         </th>
         <th>
             
         </th>
     </tr>
 
+
+    
     @foreach (var oneClass in Model)
     {
         <tr>
             <td>
-               @{
+@*               @{
                     var user = JsonConvert.DeserializeObject<Website.Models.UserModel>(Context.Session.GetString("User"));
-                } 
-                @user.Name
+                }
+                @user.Name*@
+                Username goes here
             </td>
             <td>
                 @Html.DisplayFor(modelItem => oneClass.UserId)
             </td>
             <td>
+                @Html.DisplayFor(modelItem => oneClass.ClassName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => oneClass.ClassDescription)
+            </td>
+            <td>
+@*              @{ClassModel className = Website.ClassManager.GetClassById(oneClass.ClassId)}
+                @className.ClassName.ToString(); ---This didn't work so commenting it out---  *@
                 @Html.DisplayFor(modelItem => oneClass.ClassId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => oneClass.ClassPrice)
             </td>
             <td>
                 Remove

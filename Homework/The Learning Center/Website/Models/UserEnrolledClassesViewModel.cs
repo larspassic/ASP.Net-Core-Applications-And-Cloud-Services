@@ -7,11 +7,12 @@ namespace Website.Models
 {
     public class UserEnrolledClassesViewModel
     {
-        public EnrollModel enrollModel { get; set; }
-        
-        public string className { get; set; }
-        public ClassModel classModel { get; set; }
-
+        public int UserId { get; set; }
+        public int ClassId { get; set; }
+        public string UserName { get; set; }
+        public string ClassName { get; set; }
+        public string ClassDescription { get; set; }
+        public decimal ClassPrice { get; set; }
 
     }
 }

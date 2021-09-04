@@ -188,10 +188,6 @@ namespace Website.Controllers
             //Need to pull the user out of the current HTTP session
             var user = JsonConvert.DeserializeObject<Models.UserModel>(HttpContext.Session.GetString("User"));
 
-            var userEnrolledClassesViewModel = new UserEnrolledClassesViewModel();
-
-
-
             //Get the classes from the database
             var enrolledClasses = enrollManager.GetAll(user.Id)
                 .Select(t => new Website.Models.EnrollModel
@@ -200,6 +196,33 @@ namespace Website.Controllers
                     ClassId = t.ClassId
                 }).ToArray();
 
+            //Create a list of our custom object which holds userid, classid, and className
+            List<UserEnrolledClassesViewModel> userEnrolledClassesViewModel = new List<UserEnrolledClassesViewModel>();
+
+            foreach (var item in enrolledClasses)
+            {
+                //Create a new combined object which represents the complete picture of one class the user is registered for
+                var singleClassObject = new UserEnrolledClassesViewModel();
+
+                //Use the GetClassById method to pull in our ClassModel object with lots of details
+                ClassModel classDetails = classManager.GetClassById(item.ClassId);
+
+                //Trying to get UserName but it's not working
+                //var userDetails = JsonConvert.DeserializeObject<Website.Models.UserModel>(Context.Session.GetString("User"));
+
+                //Map all of the properties to the new object
+                singleClassObject.UserId = item.UserId;
+                singleClassObject.ClassId = item.ClassId;
+                //singleClassObject.UserName = ??
+                singleClassObject.ClassName = classDetails.ClassName;
+                singleClassObject.ClassDescription = classDetails.ClassDescription;
+                singleClassObject.ClassPrice = classDetails.ClassPrice;
+
+                //Add the finished object to the list
+                userEnrolledClassesViewModel.Add(singleClassObject);
+            }
+
+            
             //var classes = classManager.GetAllClasses().Select(t =>
             //                        new Website.Models.ClassModel
             //                        {
@@ -209,24 +232,21 @@ namespace Website.Controllers
             //                            ClassDescription = t.ClassDescription
             //                        }).ToArray();
 
-            List<string> listOfClassNames = new List<string>();
 
-            foreach (var singleClassId in enrolledClasses)
-            {
-                var getClass = classManager.GetClassById(singleClassId.ClassId).ClassName;
-                listOfClassNames.Add(user.Name + " " + singleClassId.ClassId +" "+ getClass);
-            }
-                userEnrolledClassesViewModel.enrollModel = enrolledClasses[0];
+            //List<string> listOfClassNames = new List<string>();
+
+            //foreach (var singleClassId in enrolledClasses)
+            //{
+            //    var getClass = classManager.GetClassById(singleClassId.ClassId).ClassName;
+            //    listOfClassNames.Add(user.Name + " " + singleClassId.ClassId + " " + getClass);
+            //}
+
+
+
+
+            //userEnrolledClassesViewModel.enrollModel = enrolledClasses[0];
             //userEnrolledClassesViewModel.enrollModel.UserId = enrolledClasses[0].UserId;
             //userEnrolledClassesViewModel.classModel;
-                
-                
-
-           
-            
-               
-               
-               
 
             //for each enrolled class
             // { string classname = ClassManager.getClaassBybIDd(...)
@@ -234,17 +254,8 @@ namespace Website.Controllers
 
             //}
 
-
-
-
-            Console.WriteLine(enrolledClasses[0].ClassId);
-
-            Debug.WriteLine("This writes to the debug log");
-
-
-
             //Send the model object in to the page view
-            return View(listOfClassNames);
+            return View(userEnrolledClassesViewModel);
         }
 
 
