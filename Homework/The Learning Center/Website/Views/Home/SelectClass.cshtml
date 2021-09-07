@@ -15,12 +15,11 @@
 <form method="post" asp-action="EnrollInClass">
     
 
-   <div class="form-group">
+@*   <div class="form-group">*@
     <select asp-items="Model" name="ClassId">
         <option value="0">Please select an item.</option>
     </select>
-   </div>
-   @*<input type="hidden" name="ClassName" />  This currently doesn't work but at least we tried  *@
+@*   </div>*@
    <input type="submit" value="Enroll in the selected class" />
 
 </form>

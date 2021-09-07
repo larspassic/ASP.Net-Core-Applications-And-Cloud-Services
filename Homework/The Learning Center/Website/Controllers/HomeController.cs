@@ -36,6 +36,7 @@ namespace Website.Controllers
 
         public IActionResult Index()
         {
+
             return View();
         }
 

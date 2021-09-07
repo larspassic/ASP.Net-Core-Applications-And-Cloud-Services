@@ -13,7 +13,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Website.Data;
 using Microsoft.AspNetCore.Authentication.Cookies;
-
+using System.Net;
 
 namespace Website
 {
@@ -59,6 +59,10 @@ namespace Website
                     {
                         options.LoginPath = new PathString("/Home/Login");
                         options.AccessDeniedPath = new PathString("/Account/Denied");
+
+                        //Found this to possibly time out the cookies
+                        options.ExpireTimeSpan = TimeSpan.FromMinutes(5);
+                        
                     });
 
             services.AddDbContext<ApplicationDbContext>(options =>
@@ -68,6 +72,8 @@ namespace Website
             //Removing the default authentication mechanism so that it doesn't interfere with my custom one
             //services.AddDefaultIdentity<IdentityUser>()
             //    .AddEntityFrameworkStores<ApplicationDbContext>();
+
+
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
@@ -96,6 +102,15 @@ namespace Website
             
             app.UseSession(); // before UseMvc
 
+            //Added this from Stackoverflow which might solve my login problems
+            app.UseStatusCodePages(async context =>
+            {
+                var response = context.HttpContext.Response;
+
+                if (response.StatusCode == (int)HttpStatusCode.Unauthorized ||
+                    response.StatusCode == (int)HttpStatusCode.Forbidden)
+                    response.Redirect("/Home/Login");
+            });
 
             app.UseMvc(routes =>
             {
