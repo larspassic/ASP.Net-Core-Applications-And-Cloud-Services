@@ -62,11 +62,10 @@
     {
         <tr>
             <td>
-@*               @{
+               @{
                     var user = JsonConvert.DeserializeObject<Website.Models.UserModel>(Context.Session.GetString("User"));
                 }
-                @user.Name*@
-                Username goes here
+                @user.Name
             </td>
             <td>
                 @Html.DisplayFor(modelItem => oneClass.UserId)
