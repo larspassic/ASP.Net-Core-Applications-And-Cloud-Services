@@ -3,7 +3,12 @@ This is my repository for class work!
 
 
 ## Website Project
-[For my website project I built a small ASP.NET Core MVC website called **The Learning Center**.](https://github.com/larspassic/ASP.Net-Core-Applications-And-Cloud-Services/tree/main/Homework/The%20Learning%20Center) The website uses a simple SQL Express database with 3 tables: **Class** to store information about classes, **User** to store information about users, and **UserClass** to store the relationship of a user being registered for a class.
+[For my website project I built a small ASP.NET Core MVC website called **The Learning Center**.](https://github.com/larspassic/ASP.Net-Core-Applications-And-Cloud-Services/tree/main/Homework/The%20Learning%20Center) 
+
+The website uses a simple SQL Express database with 3 tables: 
+- **Class** to store information about classes
+- **User** to store information about users
+- **UserClass** to store the relationship of a user being registered for a class.
 
 #### #1 - Index
 The index page serves as the starting point for the website. The navigation bar at the top-right corner of the page changes to display a user's name if they are signed in.
