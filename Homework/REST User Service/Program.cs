@@ -14,11 +14,6 @@ namespace REST_User_Service
         public static void Main(string[] args)
         {
             CreateHostBuilder(args).Build().Run();
-
-            //Trying to make it so that there's always a test user on every launch
-            //Not working for now.
-            //REST_User_Service.Controllers.UsersController.users.Add(new Models.User());
-            //Edit: Moved this to startup.cs
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
