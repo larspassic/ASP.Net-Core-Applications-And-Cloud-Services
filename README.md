@@ -37,4 +37,45 @@ This page allows a currently logged in user to view the classes that they are cu
 
 ## REST service project
 
-Currently in progress!
+The goal of this project was to create a REST web service for a user object.
+
+### User object specification
+* **User ID** (Auto-generated guid)
+* **User Email** (Required field)
+* **User Password** (Required field)
+* **Note** (Optional text field)
+* **Created date** (Service generated date)
+
+### Service Requirements
+#### POST - to add a user
+>Return 201 Created if the user was created successfully.
+>
+>![picture](https://github.com/larspassic/ASP.Net-Core-Applications-And-Cloud-Services/blob/main/Homework/REST%20User%20Service/images/POST%20user.png?raw=true)
+
+
+
+#### PUT {guid} - to update a user
+>Return a 200 OK if the user was updated successfully.
+>
+>![picture](https://github.com/larspassic/ASP.Net-Core-Applications-And-Cloud-Services/blob/main/Homework/REST%20User%20Service/images/PUT%20user.png?raw=true)
+
+
+
+#### GET - to get all users
+>Get all current users.
+>
+>![picture](https://github.com/larspassic/ASP.Net-Core-Applications-And-Cloud-Services/blob/main/Homework/REST%20User%20Service/images/GET%20users.png?raw=true)
+
+
+
+#### GET {guid} to get a single user
+>Return the user if they were found.
+>
+>![picture](https://github.com/larspassic/ASP.Net-Core-Applications-And-Cloud-Services/blob/main/Homework/REST%20User%20Service/images/GET%20user%20specific.png?raw=true)
+
+
+
+#### DELETE {guid} to delete a single user
+>Return 200 if the user was deleted or 404 if the user was not found.
+>
+>![picture](https://github.com/larspassic/ASP.Net-Core-Applications-And-Cloud-Services/blob/main/Homework/REST%20User%20Service/images/DELETE%20user.png?raw=true)
