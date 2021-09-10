@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using REST_User_Service.Models;
 
 namespace REST_User_Service
 {
@@ -18,6 +19,20 @@ namespace REST_User_Service
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
+
+
+            //Trying to start up every time with a test user
+            User testUser = new User();
+
+            //Set all of the properties of the test user
+            testUser.Id = System.Guid.NewGuid();
+            testUser.Email = "user@example.com";
+            testUser.Password = "password";
+            testUser.Note = "This is a test user created on startup.";
+            testUser.CreatedDate = DateTime.Now;
+
+            //Actually add the user to the in-memory database
+            REST_User_Service.Controllers.UsersController.users.Add(testUser);
         }
 
         public IConfiguration Configuration { get; }

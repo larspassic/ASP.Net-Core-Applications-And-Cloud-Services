@@ -13,4 +13,6 @@ namespace REST_User_Service.Models
         public string Note { get; set; }
         public DateTime CreatedDate { get; set; }
     }
+
+    
 }

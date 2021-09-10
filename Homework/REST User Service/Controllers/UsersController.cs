@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Http;
 using REST_User_Service.Models;
 using System;
 using System.Collections.Generic;
@@ -27,28 +28,87 @@ namespace REST_User_Service.Controllers
         }
 
         // GET api/<UsersController>/5
-        [HttpGet("{id}")]
-        public string Get(int id)
+        [HttpGet("{guid}", Name = "Get")]
+        public IActionResult Get(Guid guid)
         {
-            return "value";
+            //Search through the user database and store the result that was sent in
+            User userFound = users.FirstOrDefault(t => t.Id == guid);
+            
+            //Check if user was not found and send back a 404 result instead
+            if (userFound == null)
+            {
+                
+                //Specifying the guid so it will show the user what they sent over
+                return NotFound("User not found: " + guid);
+            }
+            
+            return Ok(userFound);
         }
 
         // POST api/<UsersController>
         [HttpPost]
-        public void Post([FromBody] string value)
+        public IActionResult Post([FromBody] User value)
         {
+            if (value == null)
+            {
+                return new BadRequestResult();
+            }
+            if (value.Email == null)
+            {
+                return BadRequest("Email field can not be null.");
+            }
+            if (value.Password == null)
+            {
+                return BadRequest("Password field can not be null.");
+            }
+
+            //Set this user's value to be a new GUID
+            value.Id = System.Guid.NewGuid();
+            value.CreatedDate = DateTime.UtcNow;
+
+            //Actually add the user to the database
+            users.Add(value);
+
+            return CreatedAtAction(nameof(Get), new { id = value.Id });
         }
 
         // PUT api/<UsersController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        [HttpPut("{guid}")]
+        public IActionResult Put(Guid guid, [FromBody] User value)
         {
+            //Search through the user database and store the result that was sent in
+            User userFound = users.FirstOrDefault(t => t.Id == guid);
+
+            //If the user was found, use the input to update the user in the database
+            if (userFound != null)
+            {
+                userFound.Email = value.Email;
+                userFound.Password = value.Password;
+                userFound.Note = value.Note;
+
+                return Ok(userFound);
+            }
+            else return new NotFoundObjectResult(guid);
         }
 
         // DELETE api/<UsersController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
+        [HttpDelete("{guid}")]
+        public IActionResult Delete(Guid guid)
         {
+            //Search through the user database and store the result that was sent in
+            User userFound = users.FirstOrDefault(t => t.Id == guid);
+
+            if (userFound != null)
+            {
+                users.Remove(userFound);
+
+                return new OkResult();
+            }
+            else
+            {
+                return new NotFoundObjectResult("Contact not found. No records were deleted.");
+            }
+
         }
     }
 }
