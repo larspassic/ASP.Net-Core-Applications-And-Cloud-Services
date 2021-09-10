@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Net;
+using Microsoft.AspNetCore.Cors;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -13,9 +14,17 @@ namespace HelloWorldService.Controllers
     [Route("api/[controller]")]
     [ApiController]
     //[Authenticator] //this will complicate Javascript section
+    [EnableCors("GETONLY")]
 
     public class ContactsController : ControllerBase
     {
+        //Injecting a contacts repository
+        private readonly IContactRepository contactRepository;
+        public ContactsController(IContactRepository contactRepository)
+        {
+            this.contactRepository = contactRepository;
+        }
+
 
         private static List<Contact> contacts = new List<Contact>();
 
@@ -29,7 +38,10 @@ namespace HelloWorldService.Controllers
             //int x = 1;
             //x = x / (x - 1);
             
-            return Ok(contacts);
+
+            //Modified for repository
+            //return Ok(contacts);
+            return Ok(contactRepository.Contacts);
         }
 
         // GET api/<ContactsController>/5
@@ -48,6 +60,32 @@ namespace HelloWorldService.Controllers
 
             return Ok(contactFound);
         }
+
+
+
+        // PUT api/<ContactsController>/5
+        //for the Attribute Routing exercise
+        //Add a GET contacts{contactId}/orders route that returns a single contact
+        [HttpGet]
+        [Route("{contactId}/orders")]
+        public IActionResult GetContactOrders(int contactId)
+        {
+            //Search through "contacts" and store the result where id matches the id that was sent
+            Contact contactFound = contacts.FirstOrDefault(t => t.Id == contactId);
+
+
+            //Exercise - need to send back a 404 not found result, how if we're sending back a Contact object
+            if (contactFound == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(contactFound);
+        }
+
+
+
+
 
         // POST api/<ContactsController>
         [HttpPost]
@@ -100,6 +138,11 @@ namespace HelloWorldService.Controllers
             }
 
         }
+
+
+
+
+
 
         // DELETE api/<ContactsController>/5
         [HttpDelete("{id}")]

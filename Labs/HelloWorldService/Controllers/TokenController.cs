@@ -22,7 +22,8 @@ namespace HelloWorldService.Controllers
 
         // This should require SSL
         [HttpGet]
-        public dynamic Get(string userName, string password)
+        [Route("{userName}/{password}")]
+        public dynamic GetUser(string userName, string password)
         {
             var token = TokenHelper.GetToken(userName, password);
             return new { Token = token };

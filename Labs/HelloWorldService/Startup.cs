@@ -24,6 +24,29 @@ namespace HelloWorldService
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+
+            //Add repository
+            services.AddSingleton<IContactRepository, ContactRepository>();
+
+            //Add CORS support
+            services.AddCors(options =>
+            {
+                //Default policy - temporarily commented out
+                //options.AddDefaultPolicy(builder =>
+                //{
+                //    builder
+                //    .AllowAnyOrigin()
+                //    .AllowAnyMethod();
+                //});
+
+                options.AddPolicy("GETONLY", builder =>
+                {
+                    builder
+                    .AllowAnyOrigin()
+                    .WithMethods("GET");
+                });
+            });
+
             services
 
                 .AddSwaggerGen()
@@ -47,6 +70,9 @@ namespace HelloWorldService
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
+            //Add CORS support
+            app.UseCors();
+            
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {
