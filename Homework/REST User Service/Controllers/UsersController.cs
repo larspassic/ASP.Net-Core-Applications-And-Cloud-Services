@@ -82,11 +82,22 @@ namespace REST_User_Service.Controllers
             //If the user was found, use the input to update the user in the database
             if (userFound != null)
             {
-                userFound.Email = value.Email;
-                userFound.Password = value.Password;
-                userFound.Note = value.Note;
 
-                return Ok(userFound);
+                //Check each field, only update the field if something was included in the request
+                if (value.Email != null)
+                {
+                    userFound.Email = value.Email;
+                }
+                if (value.Password != null)
+                {
+                    userFound.Password = value.Password;
+                }
+                if (value.Note != null)
+                {
+                    userFound.Note = value.Note;
+                }
+
+                return Ok(userFound.Id);
             }
             else return new NotFoundObjectResult(guid);
         }
