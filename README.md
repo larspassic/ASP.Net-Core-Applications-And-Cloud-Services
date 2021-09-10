@@ -37,7 +37,7 @@ This page allows a currently logged in user to view the classes that they are cu
 
 ## REST service project
 
-The goal of this project was to create a REST web service for a user object.
+The goal of this project was to create a [REST web service](https://github.com/larspassic/ASP.Net-Core-Applications-And-Cloud-Services/tree/main/Homework/REST%20User%20Service) for a user object.
 
 ### User object specification
 * **User ID** (Auto-generated guid)
