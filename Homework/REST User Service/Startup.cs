@@ -25,7 +25,9 @@ namespace REST_User_Service
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
+            //services.AddXmlSerializerFormatters();
+            //services.AddXmlDataContractSerializerFormatters();
+            
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
