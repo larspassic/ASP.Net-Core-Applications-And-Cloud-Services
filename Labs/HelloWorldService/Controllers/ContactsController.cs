@@ -120,7 +120,7 @@ namespace HelloWorldService.Controllers
             //Try to find the contact
             Contact contactFound = contacts.FirstOrDefault(t => t.Id == id);
 
-            //Easy but not good way to do it, because it overwrites things like 
+            //Easy but not good way to do it, because it overwrites things like password or created date
             //contactFound = value;
 
 
